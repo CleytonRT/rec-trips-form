@@ -186,5 +186,12 @@ toSubmit.onclick = () => {
     // tudo certo, submete o form
     document.getElementById('registrationForm').submit();
   }
+
+  form.addEventListener('submit', e => {
+  // chama sua função de validação de Step 3
+  if (!validateStep3()) {
+    e.preventDefault();         // bloqueia o envio se inválido
+  }
+});
 };
 });
