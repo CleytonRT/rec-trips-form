@@ -61,12 +61,12 @@
           </div>
           <div>
             <label for="rg">RG *</label>
-            <input type="text" id="rg" name="rg" required>
+            <input type="text" id="rg" name="rg" minlength="10" required>
             <small class="input-helper">Digite apenas números</small>
           </div>
           <div>
             <label for="cpf">CPF *</label>
-            <input type="text" id="cpf" name="cpf" maxlength="14" required>
+            <input type="text" id="cpf" name="cpf" minlength="14" maxlength="14" required>
             <small class="input-helper">Formato: xxx.xxx.xxx-xx</small>
           </div>
           <div>
@@ -91,11 +91,7 @@
         <div id="roomOptions" class="hidden">
           <label>
             <input type="radio" name="roomType" value="compartilhado">
-            Quarto Compartilhado - R$380,00
-          </label>
-          <label>
-            <input type="radio" name="roomType" value="casal">
-            Quarto Casal - R$420,00
+            Quarto Compartilhado - R$465,00
           </label>
         </div>
 

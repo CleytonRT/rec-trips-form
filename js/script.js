@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbx1rPdBqkCbTWQwGaezF-tuTGIvX53c4MZgzO7IWQ-f8GdevLFhLmtD7ZdrMwct-suF/exec';
   /* — Helpers — */
   const btn = id => document.getElementById(id);
   const stepsIds = ['step0','step1','step2','step3','step4'];
@@ -30,22 +31,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* — Step 1: dados pessoais — */
   function validateStep1() {
-    let ok = true;
-    ['fullName','whatsapp','birthDate','rg','cpf'].forEach(id => {
-      const f = document.getElementById(id);
-      f.classList.remove('invalid');
-      f.parentNode.querySelectorAll('.error-text').forEach(x => x.remove());
-      if (!f.value.trim()) {
-        ok = false;
-        f.classList.add('invalid');
-        const msg = document.createElement('small');
-        msg.className = 'error-text';
-        msg.textContent = 'Preencha este campo';
-        f.parentNode.appendChild(msg);
+  let ok = true;
+
+  ['fullName','whatsapp','birthDate','rg','cpf'].forEach(id => {
+    const f = document.getElementById(id);
+    f.classList.remove('invalid');
+    f.parentNode.querySelectorAll('.error-text').forEach(x => x.remove());
+    const val = f.value.trim();
+    let msg = '';
+    if (!val) {
+      msg = 'Preencha este campo';
+    } else if (id === 'cpf') {
+      // CPF precisa ter 11 dígitos
+      const digits = val.replace(/\D/g,'');
+      if (digits.length < 11) msg = 'CPF deve ter 11 dígitos';
+    } else if (id === 'whatsapp') {
+      // WhatsApp precisa ter entre 10 e 11 dígitos
+      const digits = val.replace(/\D/g,'');
+      if (digits.length < 10 || digits.length > 11) {
+        msg = 'Celular deve ter 10 ou 11 dígitos';
       }
-    });
-    return ok;
-  }
+    }
+    if (msg) {
+      ok = false;
+      f.classList.add('invalid');
+      const e = document.createElement('small');
+      e.className = 'error-text';
+      e.textContent = msg;
+      f.parentNode.appendChild(e);
+    }
+  });
+
+  return ok;
+}
+
   // **Aqui** movemos a função de toggle de quartos para o Step2
   const roomSec = document.getElementById('roomOptions');
   btn('toStep2').onclick = () => {
@@ -70,6 +89,10 @@ document.addEventListener('DOMContentLoaded', () => {
   /* — Step 2: quartos & acompanhantes — */
   btn('toStep3').onclick = () => {
     let ok = true;
+    roomSec.querySelector('.error-text')?.remove();
+    document.getElementById('companionsBlock')
+    .querySelector('.error-text')?.remove();
+
 
     // validação de quarto (só se Hospedagem)
     if (chosenLabel.includes('Hospedagem') &&
@@ -157,18 +180,35 @@ document.addEventListener('DOMContentLoaded', () => {
       msg.textContent = 'Você deve aceitar os termos';
       document.querySelector('.terms-accept').appendChild(msg);
     }
-    const blank = ctx.getImageData(0,0,canvas.width,canvas.height)
-                     .data.every(v => v === 0);
+    const blank = ctx.getImageData(0,0,canvas.width,canvas.height) .data.every(v => v === 0);
     if (blank) {
       ok = false;
       errSig.style.display = 'block';
     }
     return ok;
   }
+  
+  btn('toSubmit').onclick = async () => {
+  // 1) valida termos + assinatura
+  if (!validateStep3()) return;
 
-  btn('toSubmit').onclick = () => {
-    if (validateStep3()) showStep(4);
-  };
+  // 2) envia todos os campos ao Google Sheets via Apps Script
+  try {
+    const form = document.getElementById('registrationForm');
+    const res = await fetch(scriptURL, {
+      method: 'POST',
+      mode: 'cors',
+      body: new FormData(form)
+    });
+    if (!res.ok) throw new Error('Falha no envio');
+  } catch (err) {
+    return alert('Erro ao registrar. Tente novamente.');
+  }
+
+  // 3) se deu certo, avança para o Step 4
+  showStep(4);
+};
+
   btn('backToStep2').onclick = () => showStep(2);
 
   /* — Step 4: mensagem de sucesso já está em seu HTML — */
