@@ -28,8 +28,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* ==== Multi-Step Navigation ==== */
-  const steps = ['step0','step1','step2','step3']
-    .map(id => document.getElementById(id));
+const steps = ['step0','step1','step2','step3','step4']
+  .map(id => document.getElementById(id));
   const mainHeader  = document.getElementById('mainHeader');
   const headerTitle = document.getElementById('headerTitle');
   const progressLis = mainHeader.querySelectorAll('.progress-bar li');
@@ -156,9 +156,15 @@ document.addEventListener('DOMContentLoaded', () => {
     errorSign.style.display = 'none';
   };
 
-  // Final submit validation
-  form.addEventListener('submit', e => {
-    let ok = true;
+btn('toSubmit').addEventListener('click', e => {
+  // validar termos + assinatura como já faz
+  if (!validateStep3()) return;  // bloqueia se inválido
+
+  // aqui não fazemos form.submit(); apenas mostramos o passo 4
+  showStep(4);
+});
+
+  let ok = true;
     // terms checkbox
     document.querySelector('.terms-accept .error-text')?.remove();
     if (!acceptTerms.checked) {
