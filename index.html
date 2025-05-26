@@ -88,12 +88,39 @@
       <section id="step2" class="hidden">
          <section class="section-personal">
         <!-- Opções para hospedagem -->
+        <fieldset class="roomOptions">
+          <legend>Selecione o quarto *</legend>
         <div id="roomOptions" class="hidden">
           <label>
             <input type="radio" name="roomType" value="compartilhado">
             Quarto Compartilhado - R$465,00
           </label>
         </div>
+        </fieldset>
+        <!-- Local de embarque -->
+        <fieldset id="embarkSection" class="embark-section">
+          <legend>Local de Embarque *</legend>
+          <div>
+            <label>
+              <input 
+                type="radio" 
+                name="embarkLocation" 
+                value="Shopping Internacional – Guarulhos"
+              >
+              Shopping Internacional – Guarulhos
+            </label>
+          </div>
+          <div>
+            <label>
+              <input 
+                type="radio" 
+                name="embarkLocation" 
+                value="Barra Funda – São Paulo"
+              >
+              Barra Funda – São Paulo
+            </label>
+          </div>
+        </fieldset>
 
         <!-- Bloco de Acompanhantes -->
         <div id="companionsBlock">

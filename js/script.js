@@ -68,10 +68,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // Step2 setup & validation
   let roomSec, companionsBlock, companionInput, companionsList, soloChk, next2Btn;
   function initStep2() {
+    const embarkSec = btn('embarkSection');
     // show/hide quartos
     roomSec = btn('roomOptions');
     if (chosenLabel.includes('Hospedagem')) roomSec.classList.remove('hidden');
     else roomSec.classList.add('hidden');
+    embarkSec.classList.remove('hidden');
     // reset errors
     roomSec.querySelectorAll('.error-text').forEach(e => e.remove());
     companionsBlock = btn('companionsBlock');
@@ -146,6 +148,16 @@ soloChk.onchange = () => {
         e.className = 'error-text';
         e.textContent = 'Adicione passageiro ou marque sozinho';
         companionsBlock.appendChild(e);
+      }
+      // valida o Local de Embarque
+      embarkSec.querySelector('.error-text')?.remove();
+      const chosenEmbark = document.querySelector('input[name="embarkLocation"]:checked');
+      if (!chosenEmbark) {
+        ok = false;
+        const msg = document.createElement('small');
+        msg.className = 'error-text';
+        msg.textContent = 'Selecione o local de embarque';
+        embarkSec.appendChild(msg);
       }
       if (ok) showStep(3);
     };

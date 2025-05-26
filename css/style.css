@@ -15,7 +15,7 @@
 body {
   font-family: 'Segoe UI', Tahoma, sans-serif;
   background-color: var(--white);
-  padding: 20px;
+  padding: 10px;
   color: #333;
 }
 
@@ -123,9 +123,27 @@ form#registrationForm input[type="radio"] {
   padding-top: 15px;
 }
 
+.roomOptions {
+  background-color: var(--light-purple);
+  border: 1px solid var(--turquoise);
+  border-radius: 6px;
+  padding-left: 16px;
+  margin-bottom: 24px;
+  box-shadow: inset 0 0 8px rgba(106,27,154,0.1);
+}
+
+.roomOptions legend {
+  color: var(--purple);
+  font-weight: 600;
+  margin-bottom: 8px;
+  text-align: center;
+  background-color: var(--light-purple);
+  border-inline: 20px solid var(--light-purple);
+}
+
 /* Seção Local de Embarque */
 .embark-section {
-  background-color: var(--white);
+  background-color: var(--light-purple);
   border: 1px solid var(--turquoise);
   border-radius: 6px;
   padding-left: 16px;
@@ -138,8 +156,8 @@ form#registrationForm input[type="radio"] {
   font-weight: 600;
   margin-bottom: 8px;
   text-align: center;
-  background-color: var(--white);
-  border-inline: 20px solid var(--white);
+  background-color: var(--light-purple);
+  border-inline: 20px solid var(--light-purple);
 }
 
 form#registrationForm button {
@@ -374,6 +392,10 @@ input.invalid {
   .progress-bar {
     margin: 10px auto;
   }
+
+  body {
+  padding: 1px;
+  }
   
   .progress-bar li {
     width: 24px;
@@ -388,7 +410,7 @@ input.invalid {
   }
 
   .form-wrapper {
-    margin: 10px;
+    margin: 8px;
     border: none;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   }
@@ -410,7 +432,7 @@ input.invalid {
   }
 
   .section-personal {
-  padding: 10px;
+  padding: 8px;
 }
 
 .section-subtitle {
@@ -422,10 +444,6 @@ input.invalid {
   padding-bottom: 5px;
   padding-top: 0px;
 }
-
-  .embark-section {
-    padding: 12px;
-  }
 
   form#registrationForm input[type="text"],
   form#registrationForm input[type="tel"],
