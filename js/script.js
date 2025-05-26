@@ -1,11 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // --- Masks: CPF and WhatsApp ---
+  /* ==== Masks: CPF and WhatsApp ==== */
   const cpfInput = document.getElementById('cpf');
   cpfInput.addEventListener('input', e => {
     let v = e.target.value.replace(/\D/g, '').slice(0, 11);
-    v = v.replace(/(\d{3})(\d)/, '$1.$2')
-         .replace(/(\d{3})(\d)/, '$1.$2')
-         .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+    v = v
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
     e.target.value = v;
   });
 
@@ -26,42 +27,42 @@ document.addEventListener('DOMContentLoaded', () => {
     );
   });
 
-  // --- Step Navigation ---
+  /* ==== Multi-Step Navigation ==== */
   const steps = ['step0','step1','step2','step3']
     .map(id => document.getElementById(id));
-  const header = document.getElementById('mainHeader');
-  const title  = document.getElementById('headerTitle');
-  const prog   = header.querySelectorAll('.progress-bar li');
+  const mainHeader  = document.getElementById('mainHeader');
+  const headerTitle = document.getElementById('headerTitle');
+  const progressLis = mainHeader.querySelectorAll('.progress-bar li');
+  let chosenLabel   = '';
 
-  function showStep(i) {
-    steps.forEach((s,j) => s.classList.toggle('hidden', j !== i));
-    header.classList.toggle('hidden', i === 0);
-    if (i > 0) title.textContent = chosenLabel;
-    prog.forEach((li,j) => li.classList.toggle('active', j === i - 1));
+  function showStep(index) {
+    steps.forEach((sec, i) => sec.classList.toggle('hidden', i !== index));
+    mainHeader.classList.toggle('hidden', index === 0);
+    if (index > 0) headerTitle.textContent = chosenLabel;
+    progressLis.forEach((li, i) => li.classList.toggle('active', i === index-1));
   }
 
-  // --- Step 0: Destination ---
-  let chosenLabel = '';
-  document.querySelectorAll('input[name="destination"]').forEach(r => {
-    r.addEventListener('change', e => {
+  /* Step 0: Choose destination */
+  document.querySelectorAll('input[name="destination"]').forEach(radio => {
+    radio.addEventListener('change', e => {
       chosenLabel = e.target.closest('label').textContent.trim();
       btn('toStep1').disabled = false;
     });
   });
-  btn('toStep1').onclick = () => showStep(1);
+  btn('toStep1').onclick    = () => showStep(1);
   btn('backToStep0').onclick = () => showStep(0);
 
-  // --- Step 1: Personal Data Validation ---
+  /* Step 1: Personal Data Validation */
   function validateStep1() {
-    const fields = ['fullName','whatsapp','birthDate','rg','cpf'];
-    let ok = true;
-    fields.forEach(id => {
+    const ids = ['fullName','whatsapp','birthDate','rg','cpf'];
+    let valid = true;
+    ids.forEach(id => {
       const f = document.getElementById(id);
       f.classList.remove('invalid');
-      const err = f.parentNode.querySelector('.error-text');
-      if (err) err.remove();
+      const old = f.parentNode.querySelector('.error-text');
+      if (old) old.remove();
       if (!f.value.trim()) {
-        ok = false;
+        valid = false;
         f.classList.add('invalid');
         const msg = document.createElement('small');
         msg.className = 'error-text';
@@ -69,129 +70,114 @@ document.addEventListener('DOMContentLoaded', () => {
         f.parentNode.appendChild(msg);
       }
     });
-    return ok;
+    return valid;
   }
-  btn('toStep2').onclick = () => validateStep1() && showStep(2);
+  btn('toStep2').onclick     = () => validateStep1() && showStep(2);
   btn('backToStep1').onclick = () => showStep(1);
 
-  // --- Step 2: Room & Companion Logic ---
-  const room = document.getElementById('roomOptions');
+  /* Step 2: Room options & Companions */
+  const roomSection = document.getElementById('roomOptions');
   btn('toStep2').addEventListener('click', () => {
-    room.classList.toggle('hidden', !chosenLabel.includes('(Hospedagem)'));
+    roomSection.classList.toggle('hidden', !chosenLabel.includes('(Hospedagem)'));
   });
 
-  // Add companion
   document.getElementById('addCompanion').onclick = () => {
     const inp = document.getElementById('companionName');
     if (!inp.value.trim()) return;
-    const li = document.createElement('li'); li.textContent = inp.value.trim();
+    const li = document.createElement('li');
+    li.textContent = inp.value.trim();
     document.getElementById('companionsList').appendChild(li);
     inp.value = '';
   };
 
   function validateStep2() {
-    let ok = true;
-    // room validation for hospedagem
+    let valid = true;
+    // room validation
     if (chosenLabel.includes('(Hospedagem)')) {
-      const sel = room.querySelector('input[name="roomType"]:checked');
-      const e = room.querySelector('.error-text'); if (e) e.remove();
+      const sel = roomSection.querySelector('input[name="roomType"]:checked');
+      const prev = roomSection.querySelector('.error-text');
+      if (prev) prev.remove();
       if (!sel) {
-        ok = false;
+        valid = false;
         const msg = document.createElement('small');
         msg.className = 'error-text';
         msg.textContent = 'Selecione tipo de quarto';
-        room.appendChild(msg);
+        roomSection.appendChild(msg);
       }
     }
-    // companion or solo
+    // companions or solo
     const solo = document.getElementById('soloTravel').checked;
     const list = document.getElementById('companionsList');
     const cont = list.parentNode;
-    const e = cont.querySelector('.error-text'); if (e) e.remove();
+    const prev = cont.querySelector('.error-text');
+    if (prev) prev.remove();
     if (!solo && list.children.length === 0) {
-      ok = false;
+      valid = false;
       const msg = document.createElement('small');
       msg.className = 'error-text';
       msg.textContent = 'Adicione passageiro ou marque viajando sozinho';
       cont.appendChild(msg);
     }
-    return ok;
+    return valid;
   }
-  btn('toStep3').onclick = () => validateStep2() && showStep(3);
+  btn('toStep3').onclick     = () => validateStep2() && showStep(3);
   btn('backToStep2').onclick = () => showStep(2);
 
-  // Utility to get button by id
-  function btn(id) { return document.getElementById(id); }
-
-  // Initialize
+  /* Initialize to first step */
   showStep(0);
 
-  // --- Step 3: Termos & Assinatura ---
-const acceptTerms     = document.getElementById('acceptTerms');
-const signaturePadEl  = document.getElementById('signaturePad');
-const clearBtn        = document.getElementById('clearSignature');
-const errorSignature  = document.getElementById('error-signature');
-const toSubmit        = document.getElementById('toSubmit');
+  /* ==== Step 3: Netlify Submit, Terms & Signature ==== */
+  const form          = document.getElementById('registrationForm');
+  const acceptTerms   = document.getElementById('acceptTerms');
+  const signaturePad  = document.getElementById('signaturePad');
+  const clearCanvas   = document.getElementById('clearSignature');
+  const errorSign     = document.getElementById('error-signature');
+  const ctx = signaturePad.getContext('2d');
+  let drawing = false;
 
-// inicializa canvas para desenho
-const ctx = signaturePadEl.getContext('2d');
-let drawing = false;
+  // Canvas drawing
+  signaturePad.addEventListener('pointerdown', () => drawing = true);
+  signaturePad.addEventListener('pointerup',   () => { drawing = false; ctx.beginPath(); });
+  signaturePad.addEventListener('pointermove', e => {
+    if (!drawing) return;
+    const { left, top } = signaturePad.getBoundingClientRect();
+    const x = e.clientX - left, y = e.clientY - top;
+    ctx.lineWidth   = 2;
+    ctx.lineCap     = 'round';
+    ctx.strokeStyle = '#000';
+    ctx.lineTo(x, y);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+  });
+  // Clear canvas
+  clearCanvas.onclick = () => {
+    ctx.clearRect(0, 0, signaturePad.width, signaturePad.height);
+    errorSign.style.display = 'none';
+  };
 
-signaturePadEl.addEventListener('pointerdown', () => { drawing = true; });
-signaturePadEl.addEventListener('pointerup',   () => { drawing = false; ctx.beginPath(); });
-signaturePadEl.addEventListener('pointermove', e => {
-  if (!drawing) return;
-  const rect = signaturePadEl.getBoundingClientRect();
-  const x = e.clientX - rect.left;
-  const y = e.clientY - rect.top;
-  ctx.lineWidth = 2;
-  ctx.lineCap = 'round';
-  ctx.strokeStyle = '#000';
-  ctx.lineTo(x, y);
-  ctx.stroke();
-  ctx.beginPath();
-  ctx.moveTo(x, y);
-});
-
-// botão limpar
-clearBtn.onclick = () => {
-  ctx.clearRect(0, 0, signaturePadEl.width, signaturePadEl.height);
-  errorSignature.style.display = 'none';
-};
-
-// validação e submit
-toSubmit.onclick = () => {
-  // limpa erros anteriores
-  errorSignature.style.display = 'none';
-  document.querySelector('.terms-accept .error-text')?.remove();
-
-  let ok = true;
-  // checa termos
-  if (!acceptTerms.checked) {
-    ok = false;
-    const msg = document.createElement('small');
-    msg.className = 'error-text';
-    msg.textContent = 'Você deve aceitar os termos';
-    document.querySelector('.terms-accept').appendChild(msg);
-  }
-  // checa assinatura (canvas não está em branco)
-  const blank = ctx.getImageData(0, 0, signaturePadEl.width, signaturePadEl.height)
-                .data.every(v => v === 0);
-  if (blank) {
-    ok = false;
-    errorSignature.style.display = 'block';
-  }
-
-  if (ok) {
-    // tudo certo, submete o form
-    document.getElementById('registrationForm').submit();
-  }
-
+  // Final submit validation
   form.addEventListener('submit', e => {
-  // chama sua função de validação de Step 3
-  if (!validateStep3()) {
-    e.preventDefault();         // bloqueia o envio se inválido
-  }
-});
-};
+    let ok = true;
+    // terms checkbox
+    document.querySelector('.terms-accept .error-text')?.remove();
+    if (!acceptTerms.checked) {
+      ok = false;
+      const msg = document.createElement('small');
+      msg.className = 'error-text';
+      msg.textContent = 'Você deve aceitar os termos';
+      document.querySelector('.terms-accept').appendChild(msg);
+    }
+    // signature not blank
+    const blank = ctx.getImageData(0,0,signaturePad.width,signaturePad.height)
+                   .data.every(v => v === 0);
+    if (blank) {
+      ok = false;
+      errorSign.style.display = 'block';
+    }
+    if (!ok) e.preventDefault();  // block native submit if invalid
+  });
+
+  /* Helper to grab buttons by id */
+  function btn(id) { return document.getElementById(id); }
 });
