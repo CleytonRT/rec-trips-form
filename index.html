@@ -9,11 +9,7 @@
 <body>
   <div class="form-wrapper">
     <form
-      id="registrationForm"
-      name="registrationForm"
-      method="POST"
-      data-netlify="true"
-      action="/sucesso.html">
+      id="registrationForm" name="registrationForm" method="POST" data-netlify="true">
       <input type="hidden" name="form-name" value="registrationForm" /> 
       <section id="step0">
         <h3 class="section-subtitle">Selecione seu destino</h3>
@@ -190,10 +186,11 @@
 
           <!-- Botões de navegação -->
           <div class="nav-buttons">
-            <button type="submit" id="toSubmit">Enviar</button>
+            <button type="button" id="toSubmit">Enviar</button>
             <button type="button" id="backToStep2">Voltar</button>
           </div>
         </section>
+        
         <!-- STEP 4: SUCESSO / VOUCHER -->
         <section id="step4" class="hidden">
           <div class="form-wrapper">
@@ -206,7 +203,7 @@
               <button
                 type="button"
                 class="btn-success"
-                onclick="window.location.href='https://wa.me/SEUNUMERO?text=Cadastro%20concluido'"
+                onclick="window.location.href='https://wa.me/message/G7FUENJX5QHII1?text=Cadastro%20concluido'"
               >
                 Conferir Voucher
               </button>

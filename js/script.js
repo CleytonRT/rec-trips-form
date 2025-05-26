@@ -1,68 +1,42 @@
 document.addEventListener('DOMContentLoaded', () => {
-  /* ==== Masks: CPF and WhatsApp ==== */
-  const cpfInput = document.getElementById('cpf');
-  cpfInput.addEventListener('input', e => {
-    let v = e.target.value.replace(/\D/g, '').slice(0, 11);
-    v = v
-      .replace(/(\d{3})(\d)/, '$1.$2')
-      .replace(/(\d{3})(\d)/, '$1.$2')
-      .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
-    e.target.value = v;
-  });
+  /* — Helpers — */
+  const btn = id => document.getElementById(id);
+  const stepsIds = ['step0','step1','step2','step3','step4'];
+  const steps    = stepsIds.map(id => document.getElementById(id));
+  const mainHdr  = document.getElementById('mainHeader');
+  const hdrTitle = document.getElementById('headerTitle');
+  const progLis  = mainHdr.querySelectorAll('.progress-bar li');
+  let chosenLabel = '';
 
-  const whatsapp = document.getElementById('whatsapp');
-  whatsapp.addEventListener('input', e => {
-    let v = e.target.value.replace(/\D/g, '').slice(0, 11);
-    e.target.value = v.length < 3
-      ? '(' + v
-      : '(' + v.slice(0,2) + ')' + v.slice(2);
-    e.target.setCustomValidity('');
-  });
-  whatsapp.addEventListener('blur', e => {
-    const len = e.target.value.replace(/\D/g, '').length;
-    e.target.setCustomValidity(
-      (len < 10 || len > 11)
-        ? 'Número deve ter 10–11 dígitos'
-        : ''
-    );
-  });
-
-  /* ==== Multi-Step Navigation ==== */
-const steps = ['step0','step1','step2','step3','step4']
-  .map(id => document.getElementById(id));
-  const mainHeader  = document.getElementById('mainHeader');
-  const headerTitle = document.getElementById('headerTitle');
-  const progressLis = mainHeader.querySelectorAll('.progress-bar li');
-  let chosenLabel   = '';
-
-  function showStep(index) {
-    steps.forEach((sec, i) => sec.classList.toggle('hidden', i !== index));
-    mainHeader.classList.toggle('hidden', index === 0);
-    if (index > 0) headerTitle.textContent = chosenLabel;
-    progressLis.forEach((li, i) => li.classList.toggle('active', i === index-1));
+  function showStep(i) {
+    steps.forEach((s,j) => s.classList.toggle('hidden', j !== i));
+    if (i > 0 && i < 4) {
+      mainHdr.classList.remove('hidden');
+      hdrTitle.textContent = chosenLabel;
+      progLis.forEach((li,j) => li.classList.toggle('active', j === i-1));
+    } else {
+      mainHdr.classList.add('hidden');
+    }
   }
 
-  /* Step 0: Choose destination */
-  document.querySelectorAll('input[name="destination"]').forEach(radio => {
-    radio.addEventListener('change', e => {
+  /* — Step 0: escolha de destino — */
+  document.querySelectorAll('input[name="destination"]').forEach(r => {
+    r.onchange = e => {
       chosenLabel = e.target.closest('label').textContent.trim();
       btn('toStep1').disabled = false;
-    });
+    };
   });
-  btn('toStep1').onclick    = () => showStep(1);
-  btn('backToStep0').onclick = () => showStep(0);
+  btn('toStep1').onclick = () => showStep(1);
 
-  /* Step 1: Personal Data Validation */
+  /* — Step 1: dados pessoais — */
   function validateStep1() {
-    const ids = ['fullName','whatsapp','birthDate','rg','cpf'];
-    let valid = true;
-    ids.forEach(id => {
+    let ok = true;
+    ['fullName','whatsapp','birthDate','rg','cpf'].forEach(id => {
       const f = document.getElementById(id);
       f.classList.remove('invalid');
-      const old = f.parentNode.querySelector('.error-text');
-      if (old) old.remove();
+      f.parentNode.querySelectorAll('.error-text').forEach(x => x.remove());
       if (!f.value.trim()) {
-        valid = false;
+        ok = false;
         f.classList.add('invalid');
         const msg = document.createElement('small');
         msg.className = 'error-text';
@@ -70,18 +44,61 @@ const steps = ['step0','step1','step2','step3','step4']
         f.parentNode.appendChild(msg);
       }
     });
-    return valid;
+    return ok;
   }
-  btn('toStep2').onclick     = () => validateStep1() && showStep(2);
+  // **Aqui** movemos a função de toggle de quartos para o Step2
+  const roomSec = document.getElementById('roomOptions');
+  btn('toStep2').onclick = () => {
+    if (!validateStep1()) return;
+
+    // exibe ou oculta #roomOptions dependendo de “Hospedagem”
+    if (chosenLabel.includes('Hospedagem')) {
+      roomSec.classList.remove('hidden');
+    } else {
+      roomSec.classList.add('hidden');
+    }
+
+    // limpa erros antigos de room/acompan
+    roomSec.querySelectorAll('.error-text').forEach(x => x.remove());
+    document.getElementById('companionsBlock')
+      .querySelectorAll('.error-text').forEach(x => x.remove());
+
+    showStep(2);
+  };
+  btn('backToStep0').onclick = () => showStep(0);
+
+  /* — Step 2: quartos & acompanhantes — */
+  btn('toStep3').onclick = () => {
+    let ok = true;
+
+    // validação de quarto (só se Hospedagem)
+    if (chosenLabel.includes('Hospedagem') &&
+        !roomSec.querySelector('input[name="roomType"]:checked')) {
+      ok = false;
+      const msg = document.createElement('small');
+      msg.className = 'error-text';
+      msg.textContent = 'Selecione o tipo de quarto';
+      roomSec.appendChild(msg);
+    }
+
+    // validação de acompanhantes ou solo
+    const solo = btn('soloTravel').checked;
+    const list = document.getElementById('companionsList');
+    
+    if (!solo && list.children.length === 0) {
+      ok = false;
+      const msg = document.createElement('small');
+      msg.className = 'error-text';
+      msg.textContent = 'Adicione passageiro ou marque viajando sozinho';
+      document.getElementById('companionsBlock').appendChild(msg);
+    }
+
+    if (ok) showStep(3);
+  };
   btn('backToStep1').onclick = () => showStep(1);
 
-  /* Step 2: Room options & Companions */
-  const roomSection = document.getElementById('roomOptions');
-  btn('toStep2').addEventListener('click', () => {
-    roomSection.classList.toggle('hidden', !chosenLabel.includes('(Hospedagem)'));
-  });
-
-  document.getElementById('addCompanion').onclick = () => {
+  // botão de adicionar passageiro
+  btn('addCompanion').onclick = () => {
     const inp = document.getElementById('companionName');
     if (!inp.value.trim()) return;
     const li = document.createElement('li');
@@ -90,58 +107,20 @@ const steps = ['step0','step1','step2','step3','step4']
     inp.value = '';
   };
 
-  function validateStep2() {
-    let valid = true;
-    // room validation
-    if (chosenLabel.includes('(Hospedagem)')) {
-      const sel = roomSection.querySelector('input[name="roomType"]:checked');
-      const prev = roomSection.querySelector('.error-text');
-      if (prev) prev.remove();
-      if (!sel) {
-        valid = false;
-        const msg = document.createElement('small');
-        msg.className = 'error-text';
-        msg.textContent = 'Selecione tipo de quarto';
-        roomSection.appendChild(msg);
-      }
-    }
-    // companions or solo
-    const solo = document.getElementById('soloTravel').checked;
-    const list = document.getElementById('companionsList');
-    const cont = list.parentNode;
-    const prev = cont.querySelector('.error-text');
-    if (prev) prev.remove();
-    if (!solo && list.children.length === 0) {
-      valid = false;
-      const msg = document.createElement('small');
-      msg.className = 'error-text';
-      msg.textContent = 'Adicione passageiro ou marque viajando sozinho';
-      cont.appendChild(msg);
-    }
-    return valid;
-  }
-  btn('toStep3').onclick     = () => validateStep2() && showStep(3);
-  btn('backToStep2').onclick = () => showStep(2);
+  /* — Step 3: termos & assinatura — */
+  const accept = btn('acceptTerms');
+  const canvas = document.getElementById('signaturePad');
+  const clear  = btn('clearSignature');
+  const errSig = document.getElementById('error-signature');
+  const ctx    = canvas.getContext('2d');
+  let drawing  = false;
 
-  /* Initialize to first step */
-  showStep(0);
-
-  /* ==== Step 3: Netlify Submit, Terms & Signature ==== */
-  const form          = document.getElementById('registrationForm');
-  const acceptTerms   = document.getElementById('acceptTerms');
-  const signaturePad  = document.getElementById('signaturePad');
-  const clearCanvas   = document.getElementById('clearSignature');
-  const errorSign     = document.getElementById('error-signature');
-  const ctx = signaturePad.getContext('2d');
-  let drawing = false;
-
-  // Canvas drawing
-  signaturePad.addEventListener('pointerdown', () => drawing = true);
-  signaturePad.addEventListener('pointerup',   () => { drawing = false; ctx.beginPath(); });
-  signaturePad.addEventListener('pointermove', e => {
+  canvas.onpointerdown = () => drawing = true;
+  canvas.onpointerup   = () => { drawing = false; ctx.beginPath(); };
+  canvas.onpointermove = e => {
     if (!drawing) return;
-    const { left, top } = signaturePad.getBoundingClientRect();
-    const x = e.clientX - left, y = e.clientY - top;
+    const r = canvas.getBoundingClientRect();
+    const x = e.clientX - r.left, y = e.clientY - r.top;
     ctx.lineWidth   = 2;
     ctx.lineCap     = 'round';
     ctx.strokeStyle = '#000';
@@ -149,41 +128,59 @@ const steps = ['step0','step1','step2','step3','step4']
     ctx.stroke();
     ctx.beginPath();
     ctx.moveTo(x, y);
-  });
-  // Clear canvas
-  clearCanvas.onclick = () => {
-    ctx.clearRect(0, 0, signaturePad.width, signaturePad.height);
-    errorSign.style.display = 'none';
+  };
+  clear.onclick = () => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    errSig.style.display = 'none';
   };
 
-btn('toSubmit').addEventListener('click', e => {
-  // validar termos + assinatura como já faz
-  if (!validateStep3()) return;  // bloqueia se inválido
-
-  // aqui não fazemos form.submit(); apenas mostramos o passo 4
-  showStep(4);
-});
-
-  let ok = true;
-    // terms checkbox
+  function validateStep3() {
     document.querySelector('.terms-accept .error-text')?.remove();
-    if (!acceptTerms.checked) {
+    let ok = true;
+    if (!accept.checked) {
       ok = false;
       const msg = document.createElement('small');
       msg.className = 'error-text';
       msg.textContent = 'Você deve aceitar os termos';
       document.querySelector('.terms-accept').appendChild(msg);
     }
-    // signature not blank
-    const blank = ctx.getImageData(0,0,signaturePad.width,signaturePad.height)
-                   .data.every(v => v === 0);
+    const blank = ctx.getImageData(0,0,canvas.width,canvas.height)
+                     .data.every(v => v === 0);
     if (blank) {
       ok = false;
-      errorSign.style.display = 'block';
+      errSig.style.display = 'block';
     }
-    if (!ok) e.preventDefault();  // block native submit if invalid
+    return ok;
+  }
+
+  btn('toSubmit').onclick = () => {
+    if (validateStep3()) showStep(4);
+  };
+  btn('backToStep2').onclick = () => showStep(2);
+
+  /* — Step 4: mensagem de sucesso já está em seu HTML — */
+  /* — Inicializa no Step 0 — */
+  showStep(0);
+
+  /* — Máscaras (CPF e WhatsApp) — */
+  document.getElementById('cpf').addEventListener('input', e => {
+    let v = e.target.value.replace(/\D/g,'').slice(0,11);
+    v = v.replace(/(\d{3})(\d)/,'$1.$2')
+         .replace(/(\d{3})(\d)/,'$1.$2')
+         .replace(/(\d{3})(\d{1,2})$/,'$1-$2');
+    e.target.value = v;
   });
 
-  /* Helper to grab buttons by id */
-  function btn(id) { return document.getElementById(id); }
+  const wt = document.getElementById('whatsapp');
+  wt.addEventListener('input', e => {
+    let v = e.target.value.replace(/\D/g,'').slice(0,11);
+    e.target.value = v.length<3
+      ? '('+v
+      : '('+v.slice(0,2)+')'+v.slice(2);
+    wt.setCustomValidity('');
+  });
+  wt.addEventListener('blur', e => {
+    const L = e.target.value.replace(/\D/g,'').length;
+    wt.setCustomValidity((L<10||L>11)?'Digite 10–11 dígitos':'');
+  });
 });
