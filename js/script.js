@@ -97,15 +97,28 @@ document.addEventListener('DOMContentLoaded', () => {
   };
   btn('backToStep1').onclick = () => showStep(1);
 
-  // botão de adicionar passageiro
+  // --- adicionar e remoção de passageiros ---
   btn('addCompanion').onclick = () => {
-    const inp = document.getElementById('companionName');
-    if (!inp.value.trim()) return;
-    const li = document.createElement('li');
-    li.textContent = inp.value.trim();
-    document.getElementById('companionsList').appendChild(li);
-    inp.value = '';
-  };
+  const inp = document.getElementById('companionName');
+  const name = inp.value.trim();
+  if (!name) return;
+
+  // cria item da lista
+  const li = document.createElement('li');
+  li.textContent = name;
+
+  // botão de remover
+  const rm = document.createElement('button');
+  rm.type = 'button';
+  rm.className = 'btn-remove';
+  rm.textContent = 'Remover';
+  rm.onclick = () => li.remove();
+
+  // anexa ao li e limpa input
+  li.append(' ', rm);
+  document.getElementById('companionsList').appendChild(li);
+  inp.value = '';
+};
 
   /* — Step 3: termos & assinatura — */
   const accept = btn('acceptTerms');

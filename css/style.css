@@ -258,25 +258,16 @@ form#registrationForm .btn-add:hover {
 
 /* 2) Lista de acompanhantes com “- ” e espaçamento */
 #companionsList {
-  margin: 12px 0 0 0;
+  margin: 8px 0 0 30px;
   padding: 0;
-  list-style: none;
+  list-style: disc;
 }
 
 #companionsList li {
   position: relative;
-  padding-left: 16px;   /* espaço para o traço */
-  margin-bottom: 6px;   /* espaço entre itens */
+  margin-bottom: none;   /* espaço entre itens */
   color: #333;
   font-size: 0.9rem;
-}
-
-/* insere o “- ” antes do nome */
-#companionsList li::before {
-  content: "- ";
-  position: absolute;
-  left: 0;
-  color: var(--purple);
 }
 
 /* Step 3 – termos */
@@ -329,7 +320,7 @@ form#registrationForm .btn-clear:hover {
 }
 
 /* botão de sucesso */
-.btn-success {
+form#registrationForm .btn-success {
   width: auto;
   display: inline-block;
   margin-top: 16px;
@@ -344,8 +335,25 @@ form#registrationForm .btn-clear:hover {
   transition: background-color 0.3s;
 }
 
-.btn-success:hover {
+form#registrationForm .btn-success:hover {
   background-color: var(--purple);
+}
+
+/* botão pequeno de remoção */
+form#registrationForm .btn-remove {
+  width: auto;
+  display: inline-block;
+  background: none;
+  border: none;
+  color: #c00;              /* vermelho leve */
+  font-size: 0.75rem;       /* menor que o texto */
+  margin-left: 8px;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+form#registrationForm .btn-remove:hover {
+  color: darkred;
 }
 
 /* Campo inválido */
