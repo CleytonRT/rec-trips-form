@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="form-wrapper">
+    <form
+      id="registrationForm"
+      name="registrationForm"
+      method="POST"
+      data-netlify="true"
+      action="/sucesso.html">
+      <input type="hidden" name="form-name" value="registrationForm" /> 
+      <section id="step0">
+        <h3 class="section-subtitle">Selecione seu destino</h3>
+        <div>
+          <label>
+            <input type="radio" name="destination" value="bateVolta">
+            São Roque e Cacau Show - Rota do Vinho (Bate e Volta)
+          </label>
+        </div>
+        <div>
+          <label>
+            <input type="radio" name="destination" value="hospedagem">
+            São Thomé das Letras - O Ritual (Hospedagem)
+          </label>
+        </div>
+        <button type="button" id="toStep1" disabled>Próximo</button>
+      </section>
+
+      <div id="mainHeader" class="hidden">
+        <header class="form-header">
+          <h1 id="headerTitle"></h1>
+          <h2 id="headerSubtitle">Preencha suas informações</h2>
+        </header>
+        <ul class="progress-bar">
+          <li>1</li>
+          <li>2</li>
+          <li>3</li>
+        </ul>
+      </div>
+
+      <!-- Step 1: Dados Pessoais -->
+      <section id="step1" class="hidden">
+        <section class="section-personal">
+          <h3 class="section-subtitle">Dados Pessoais</h3>
+          <div>
+            <label for="fullName">Nome Completo *</label>
+            <input type="text" id="fullName" name="fullName" required>
+          </div>
+          <div>
+            <label for="whatsapp">Celular (WhatsApp) *</label>
+            <input type="tel" id="whatsapp" name="whatsapp" required inputmode="numeric">
+            <small class="input-helper">Formato: (xx) xxxxxxxx</small>
+          </div>
+          <div>
+            <label for="birthDate">Data de Nascimento *</label>
+            <input type="date" id="birthDate" name="birthDate" required>
+          </div>
+          <div>
+            <label for="rg">RG *</label>
+            <input type="text" id="rg" name="rg" required>
+            <small class="input-helper">Digite apenas números</small>
+          </div>
+          <div>
+            <label for="cpf">CPF *</label>
+            <input type="text" id="cpf" name="cpf" maxlength="14" required>
+            <small class="input-helper">Formato: xxx.xxx.xxx-xx</small>
+          </div>
+          <div>
+            <label>
+              <input type="checkbox" id="underage" name="underage">
+              Menor de idade
+            </label>
+            <small class="input-helper">Marque se passageiro for menor de 18 anos</small>
+          </div>
+        </section>
+
+        <div class="nav-buttons">
+          <button type="button" id="toStep2">Próximo</button>
+          <button type="button" id="backToStep0">Voltar</button>
+        </div>
+      </section>
+
+      <!-- Step 2: Acompanhantes -->
+      <section id="step2" class="hidden">
+         <section class="section-personal">
+        <!-- Opções para hospedagem -->
+        <div id="roomOptions" class="hidden">
+          <label>
+            <input type="radio" name="roomType" value="compartilhado">
+            Quarto Compartilhado - R$380,00
+          </label>
+          <label>
+            <input type="radio" name="roomType" value="casal">
+            Quarto Casal - R$420,00
+          </label>
+        </div>
+
+        <!-- Bloco de Acompanhantes -->
+        <div id="companionsBlock">
+          <label for="companionName">Pessoas que vão com você nesta viagem</label>
+          <input type="text" id="companionName" placeholder="Nome completo">
+          <button type="button" id="addCompanion" class="btn-add">Adicionar passageiro</button>
+          <ul id="companionsList"></ul>
+        </div>
+
+        <div>
+          <label>
+            <input type="checkbox" id="soloTravel" name="soloTravel">
+            Viajando sozinho
+          </label>
+          <small class="input-helper">Marque se estiver viajando sem acompanhantes</small>
+        </div>
+          </section>
+
+        <div class="nav-buttons">
+          <button type="button" id="toStep3" >Próximo</button>
+          <button type="button" id="backToStep1">Voltar</button>
+        </div>
+      </section>
+
+        <!-- STEP 3: TERMOS E ASSINATURA -->
+        <section id="step3" class="hidden">
+          <!-- Termos e condições rolável -->
+          <div class="terms-box">
+            <h3>Termos e Condições</h3>
+            <div class="terms-content">
+              <h4>SOBRE CANCELAMENTOS E DESISTÊNCIAS DA VIAGEM (CONTRATANTE)</h4>
+              <p>
+                Em caso de cancelamento o valor poderá ficar como crédito ou ser reembolsado desde que esteja no prazo de cancelamento.
+                A menos que o cancelamento seja feito em um prazo de menos de 20 dias o valor não ficará como crédito ou terá reembolso.
+              </p>
+              <p>
+                De acordo com a deliberação normativa Nº161 de 09 de agosto de 1985, da EMBRATUR:
+              </p>
+              <ul>
+                <li>- 90% até 31 dias do início da viagem;</li>
+                <li>- 80% de 21 a 30 dias do início da viagem;</li>
+                <li>- 0% a menos de 20 dias do início da viagem.</li>
+              </ul>
+              <p>
+                O cancelamento que tiver um prazo inferior a 20 dias da viagem não terá direito a crédito ou reembolso da viagem.
+              </p>
+              <h4>INFORMAÇÕES IMPORTANTES</h4>
+              <ul>
+                <li>
+                  - Caso o saldo restante não seja pago até a data demarcada da viagem, perde-se o valor de reserva, 
+                  caso não seja feito o cancelamento no prazo;
+                </li>
+                <li>
+                  - Não é permitido por lei o embarque sem o documento original com foto em mãos;
+                </li>
+                <li>
+                  - Não comparecer ao horário marcado e ultrapassar o tempo de tolerância sem avisos prévios, será dado como desistência;
+                </li>
+                <li>
+                  - A viagem pode ser remarcada pelo prestador em um prazo de 5 à 10 dias antes do embarque, 
+                  caso não haja o número mínimo de participantes;
+                </li>
+                <li>
+                  - A Rec Trips não se responsabiliza por atrasos no embarque assim como desembarque ocasionados 
+                  por eventos que afetem a chegada do ônibus, tais como desastres naturais, chuvas, acidentes no trajeto, dentre outros;
+                </li>
+                <li>
+                  - O roteiro passado pode ser alterado ou cancelado, dependendo de condições climáticas, 
+                  congestionamentos, dentre outros motivos, pois prezamos primeiramente na segurança dos participantes;
+                </li>
+                <li>
+                  - Devido ao COVID-19, caso fechem as rodovias, a viagem pode ser remarcada ou cancelada dependendo dos fatores que venham a se desenvolver.
+                </li>
+              </ul>
+            </div>
+            <label class="terms-accept">
+              <input type="checkbox" id="acceptTerms" name="acceptTerms">
+              Li e aceito os termos e condições *
+            </label>
+          </div>
+
+          <!-- Assinatura via Canvas -->
+          <div class="signature-box">
+            <canvas id="signaturePad" width="400" height="150"></canvas>
+            <button type="button" id="clearSignature" class="btn-clear">Limpar</button>
+            <small class="error-text" id="error-signature" style="display:none;">Assine para prosseguir</small>
+          </div>
+
+          <!-- Botões de navegação -->
+          <div class="nav-buttons">
+            <button type="button" id="toSubmit">Enviar</button>
+            <button type="button" id="backToStep2">Voltar</button>
+          </div>
+        </section>
+    </form>
+  </div>
+  <script src="js/script.js"></script>
+</body>
+</html>

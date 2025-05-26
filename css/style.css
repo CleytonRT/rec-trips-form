@@ -1,0 +1,430 @@
+:root {
+  --purple: #6A1B9A;
+  --turquoise: #40E0D0;
+  --white: #FFFFFF;
+  --light-purple: #F9F6FC;
+  --black: #000000;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+  background-color: var(--white);
+  padding: 20px;
+  color: #333;
+}
+
+/* esconder seções */
+.hidden {
+  display: none !important;
+}
+
+/* Container que engloba header e form */
+.form-wrapper {
+  max-width: 600px;
+  margin: 20px auto;
+  border: 1px solid var(--purple);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  background-color: var(--white);
+  overflow: hidden;
+}
+
+/* Header do formulário sem borda colorida, apenas sombra preta suave */
+header.form-header {
+  background-color: var(--purple);
+  color: var(--white);
+  padding: 20px;
+  text-align: center;
+  border-radius: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Títulos */
+header.form-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+header.form-header h2 {
+  margin: 8px 0 0;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+/* Formulário encaixado dentro do wrapper */
+form#registrationForm {
+  padding: 10px 30px 30px;  border-top: none;
+  border-radius: 0 0 8px 8px;
+  background-color: var(--white);
+}
+
+form#registrationForm div,
+form#registrationForm fieldset {
+  margin-bottom: 20px;
+
+}
+
+.Nome {
+  margin-top: 20px;
+}
+
+form#registrationForm label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: var(--purple);
+  margin-top: 12px;
+}
+
+form#registrationForm input[type="text"],
+form#registrationForm input[type="tel"],
+form#registrationForm input[type="date"] {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #CCC;
+  border-radius: 4px;
+  background-color: var(--light-purple);
+  transition: border-color 0.3s;
+}
+
+form#registrationForm input:focus {
+  border-color: var(--turquoise);
+  outline: none;
+}
+
+form#registrationForm input[type="checkbox"],
+form#registrationForm input[type="radio"] {
+  transform: scale(1.1);
+  margin-right: 8px;
+}
+
+/* Seção Dados Pessoais */
+.section-personal {
+  background-color: var(--light-purple);
+  border: 1px solid var(--turquoise);
+  border-radius: 6px;
+  padding: 16px;
+  margin-bottom: 10px;
+}
+
+.section-subtitle {
+  color: var(--turquoise);
+  font-size: 1rem;
+  font-weight: 400;
+  border-bottom: 2px solid var(--purple);
+  padding-left: none;
+  padding-bottom: 5px;
+  padding-top: 15px;
+}
+
+/* Seção Local de Embarque */
+.embark-section {
+  background-color: var(--white);
+  border: 1px solid var(--turquoise);
+  border-radius: 6px;
+  padding-left: 16px;
+  margin-bottom: 24px;
+  box-shadow: inset 0 0 8px rgba(106,27,154,0.1);
+}
+
+.embark-section legend {
+  color: var(--purple);
+  font-weight: 600;
+  margin-bottom: 8px;
+  text-align: center;
+  background-color: var(--white);
+  border-inline: 20px solid var(--white);
+}
+
+form#registrationForm button {
+  width: 100%;
+  padding: 14px;
+  background-color: var(--turquoise);
+  color: var(--white);
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--purple);
+  margin-top: 5px;
+
+
+}
+
+form#registrationForm button:hover {
+  background-color: var(--purple);
+}
+
+/* helper text (legenda) */
+.input-helper {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.875rem;
+  color: #666;
+}
+
+/* Progress bar */
+.progress-bar {
+  position: relative;
+  padding: 0;
+  margin: 20px auto 0;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.section-personal .progress-bar {
+margin-top: 24px;
+margin-inline: 60px;
+}
+
+
+.progress-bar::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 8%;
+  right: 8%;
+  height: 2px;
+  background: #CCC;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+.progress-bar li {
+  position: relative;
+  z-index: 2;
+  width: 32px;
+  height: 32px;
+  border: 2px solid var(--purple);
+  border-radius: 50%;
+  background: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--purple);
+  font-weight: 600;
+}
+
+.progress-bar li.active {
+  background: var(--purple);
+  border-color: var(--purple);
+  color: var(--white);
+}
+
+.progress-bar li::after {
+  display: none;
+}
+
+.section-personal .progress-bar {
+  margin-bottom: 8px;
+  margin-inline: 120px;
+}
+
+/* Botão “Adicionar passageiro” menor e com [+] */
+form#registrationForm .btn-add {
+  width: auto !important;
+  display: inline-block;
+  padding: 6px 12px; 
+  background: none;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--purple);
+  cursor: pointer;
+  transition: background-color 0.2s;
+  text-decoration: none;
+}
+
+form#registrationForm .btn-add::before {
+  content: "[+] ";
+  margin-right: 4px;
+}
+
+form#registrationForm .btn-add:hover {
+  background-color: var(--turquoise);
+}
+
+/* 2) Lista de acompanhantes com “- ” e espaçamento */
+#companionsList {
+  margin: 12px 0 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+#companionsList li {
+  position: relative;
+  padding-left: 16px;   /* espaço para o traço */
+  margin-bottom: 6px;   /* espaço entre itens */
+  color: #333;
+  font-size: 0.9rem;
+}
+
+/* insere o “- ” antes do nome */
+#companionsList li::before {
+  content: "- ";
+  position: absolute;
+  left: 0;
+  color: var(--purple);
+}
+
+/* Step 3 – termos */
+.terms-box {
+  border: 1px solid var(--purple);
+  border-radius: 6px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+.terms-content {
+  max-height: 150px;
+  overflow-y: auto;
+  padding: 8px;
+  background: #f9f6fc;
+  border: 1px solid #ddd;
+  margin-bottom: 12px;
+}
+.terms-accept {
+  display: block;
+  margin-top: 8px;
+  font-size: 0.9rem;
+}
+
+/* Step 3 – assinatura */
+.signature-box {
+  position: relative;
+  margin-bottom: 20px;
+}
+#signaturePad {
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  touch-action: none;
+}
+/* Botão “Limpar” (btn-clear) */
+form#registrationForm .btn-clear {
+  width: auto !important;       /* sobrescreve o 100% */
+  display: inline-block;        /* para ficar do tamanho do conteúdo */
+  padding: 4px 8px;             /* reduzido para parecer um link/botão pequeno */
+  background: none;             /* fundo transparente */
+  border: none;                 /* sem borda */
+  color: var(--purple);         /* cor roxa */
+  font-size: 0.875rem;          /* mesmo tamanho do .btn-add */
+  cursor: pointer;
+  text-decoration: underline;   /* opcional, para destacar como ação */
+}
+
+form#registrationForm .btn-clear:hover {
+  color: var(--turquoise);
+}
+
+/* botão de sucesso */
+.btn-success {
+  width: auto;
+  display: inline-block;
+  margin-top: 16px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  background-color: var(--turquoise);
+  color: var(--white);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-success:hover {
+  background-color: var(--purple);
+}
+
+/* Campo inválido */
+input.invalid {
+  border-color: red;
+}
+
+/* Texto de erro inline */
+.error-text {
+  color: red;
+  font-size: 0.875rem;
+  margin-top: 4px;
+  display: block;
+}
+
+/* ajustes mobile */
+@media (max-width: 600px) {
+  .progress-bar {
+    margin: 10px auto;
+  }
+  
+  .progress-bar li {
+    width: 24px;
+    height: 24px;
+    line-height: 22px;
+    font-size: 0.875rem;
+  }
+
+  .section-personal .progress-bar {
+  margin-top: 24px;
+  margin-inline: 60px;
+  }
+
+  .form-wrapper {
+    margin: 10px;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  header.form-header {
+    padding: 16px;
+  }
+
+  header.form-header h1 {
+    font-size: 1.25rem;
+  }
+
+  header.form-header h2 {
+    font-size: 0.650rem;
+  }
+
+  form#registrationForm {
+    padding: 20px;
+  }
+
+  .section-personal {
+  padding: 10px;
+}
+
+.section-subtitle {
+  color: var(--turquoise);
+  font-size: 0.75rem;
+  font-weight: 400;
+  border-bottom: 2px solid var(--purple);
+  padding-left: none;
+  padding-bottom: 5px;
+  padding-top: 0px;
+}
+
+  .embark-section {
+    padding: 12px;
+  }
+
+  form#registrationForm input[type="text"],
+  form#registrationForm input[type="tel"],
+  form#registrationForm input[type="date"],
+  form#registrationForm button {
+    font-size: 14px;
+    padding: 10px;
+  }
+}
+
