@@ -187,24 +187,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     return ok;
   }
-  
+
   btn('toSubmit').onclick = async () => {
   // 1) valida termos + assinatura
   if (!validateStep3()) return;
 
-  // 2) envia todos os campos ao Google Sheets via Apps Script
-  try {
-    const form = document.getElementById('registrationForm');
-    const res = await fetch(scriptURL, {
-      method: 'POST',
-      mode: 'cors',
-      body: new FormData(form)
-    });
-    if (!res.ok) throw new Error('Falha no envio');
-  } catch (err) {
-    return alert('Erro ao registrar. Tente novamente.');
-  }
-
+  const formEl = document.getElementById('registrationForm');
+  // Dispara o POST em background, sem preflight nem checagem de status
+  fetch(scriptURL, {
+    method: 'POST',
+    mode: 'no-cors',
+    body: new FormData(formEl)
+  }).catch(err => console.warn('Envio ao Sheets falhou (ignorado):', err));
+  
   // 3) se deu certo, avança para o Step 4
   showStep(4);
 };
