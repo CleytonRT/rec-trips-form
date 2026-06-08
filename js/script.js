@@ -11,8 +11,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const signatureField = $('signatureField');
   const destinationOptions = $('destinationOptions');
   const birthDateInput = $('birthDate');
-  const birthDatePicker = $('birthDatePicker');
-  const openBirthDatePicker = $('openBirthDatePicker');
 
   let viagens = [];
   let selectedTrip = null;
@@ -48,22 +46,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (year < 1900 || date > new Date()) return null;
 
     return date;
-  };
-
-  const toIsoDate = (value) => {
-    const date = parseBirthDate(value);
-    if (!date) return '';
-
-    const year = String(date.getFullYear()).padStart(4, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  };
-
-  const fromIsoDate = (value) => {
-    const match = value.match(/^(\d{4})-(\d{2})-(\d{2})$/);
-    if (!match) return '';
-    return `${match[3]}/${match[2]}/${match[1]}`;
   };
 
   const optionCard = ({ name, value, title, subtitle }) => {
@@ -276,33 +258,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   birthDateInput.addEventListener('input', () => {
     birthDateInput.value = formatBirthDate(birthDateInput.value);
-    birthDatePicker.value = toIsoDate(birthDateInput.value);
     refreshProgressBar();
-  });
-
-  birthDateInput.addEventListener('blur', () => {
-    birthDatePicker.value = toIsoDate(birthDateInput.value);
-  });
-
-  birthDatePicker.addEventListener('change', () => {
-    birthDateInput.value = fromIsoDate(birthDatePicker.value);
-    refreshProgressBar();
-  });
-
-  openBirthDatePicker.addEventListener('click', () => {
-    birthDatePicker.value = toIsoDate(birthDateInput.value);
-
-    if (typeof birthDatePicker.showPicker === 'function') {
-      try {
-        birthDatePicker.showPicker();
-        return;
-      } catch (error) {
-        birthDatePicker.focus();
-      }
-    }
-
-    birthDatePicker.focus();
-    birthDatePicker.click();
   });
 
   const updateCompanionState = () => {

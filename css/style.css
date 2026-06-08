@@ -307,45 +307,6 @@ input[type='date']:focus {
   box-shadow: 0 0 0 4px rgba(64, 224, 208, 0.18);
 }
 
-.date-field {
-  display: grid;
-  gap: 0.6rem;
-  grid-template-columns: minmax(0, 1fr) auto;
-  position: relative;
-}
-
-.calendar-btn {
-  background: var(--purple-soft);
-  border: 1px solid rgba(107, 33, 168, 0.24);
-  border-radius: 0.5rem;
-  color: var(--purple);
-  cursor: pointer;
-  font-size: 0.86rem;
-  font-weight: 800;
-  min-height: 3.15rem;
-  padding: 0 0.9rem;
-  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
-  white-space: nowrap;
-}
-
-.calendar-btn:hover,
-.calendar-btn:focus-visible {
-  background: #E9D5FF;
-  border-color: var(--purple);
-  outline: none;
-  transform: translateY(-1px);
-}
-
-.native-date-picker {
-  height: 1px;
-  opacity: 0;
-  pointer-events: none;
-  position: absolute;
-  right: 0;
-  top: 100%;
-  width: 1px;
-}
-
 fieldset {
   border: 1px solid var(--line);
   border-radius: 0.5rem;
@@ -580,10 +541,6 @@ button {
     grid-template-columns: 1fr;
   }
 
-  .date-field {
-    grid-template-columns: 1fr;
-  }
-
   .nav-buttons {
     flex-direction: column-reverse;
   }
@@ -591,8 +548,7 @@ button {
   .primary-btn,
   .secondary-btn,
   .btn-add,
-  .btn-success,
-  .calendar-btn {
+  .btn-success {
     width: 100%;
   }
 }
