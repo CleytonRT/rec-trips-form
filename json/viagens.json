@@ -1,0 +1,25 @@
+{
+  "viagens": [
+    {
+      "id": "São Roque - Rota do Vinho 20/06/2026",
+      "titulo": "São Roque - Rota do Vinho 20/06/2026",
+      "tipo": "bateVolta",
+      "tipoLabel": "Bate e Volta",
+      "quartos": [],
+      "embarques": [
+        {
+          "nome": "Shopping Internacional",
+          "cidade": "Guarulhos"
+        },
+        {
+          "nome": "Tatuapé",
+          "cidade": "São Paulo"
+        },
+        {
+          "nome": "Barra Funda",
+          "cidade": "São Paulo"
+        }
+      ]
+    }
+  ]
+}

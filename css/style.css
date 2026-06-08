@@ -1,9 +1,15 @@
 :root {
-  --purple: #6A1B9A;
+  --purple: #6B21A8;
+  --purple-dark: #581C87;
   --turquoise: #40E0D0;
+  --cyan: #22D3EE;
+  --ink: #1F2937;
+  --muted: #6B7280;
+  --line: #E5E7EB;
+  --soft: #F9FAFB;
+  --purple-soft: #F3E8FF;
   --white: #FFFFFF;
-  --light-purple: #F9F6FC;
-  --black: #000000;
+  --danger: #DC2626;
 }
 
 * {
@@ -13,225 +19,181 @@
 }
 
 body {
-  font-family: 'Segoe UI', Tahoma, sans-serif;
-  background-color: var(--white);
-  padding: 10px;
-  color: #333;
+  background:
+    radial-gradient(circle at top left, rgba(64, 224, 208, 0.2), transparent 28rem),
+    linear-gradient(135deg, #FFFFFF 0%, #F7F3FF 45%, #ECFEFF 100%);
+  color: var(--ink);
+  font-family: 'Poppins', sans-serif;
+  min-height: 100vh;
 }
 
-/* esconder seções */
+button,
+input {
+  font: inherit;
+}
+
 .hidden {
   display: none !important;
 }
 
-/* Container que engloba header e form */
-.form-wrapper {
-  max-width: 600px;
-  margin: 20px auto;
-  border: 1px solid var(--purple);
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  background-color: var(--white);
-  overflow: hidden;
+.page-shell {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: minmax(14rem, 0.52fr) minmax(0, 1.48fr);
+  margin: 0 auto;
+  max-width: 68rem;
+  min-height: 100vh;
+  padding: 1.5rem;
 }
 
-/* Header do formulário sem borda colorida, apenas sombra preta suave */
-header.form-header {
-  background-color: var(--purple);
+.brand-panel {
+  align-items: stretch;
+  display: flex;
+  min-height: auto;
+  position: sticky;
+  top: 1.5rem;
+}
+
+.brand-card {
+  background:
+    linear-gradient(135deg, rgba(107, 33, 168, 0.84), rgba(20, 184, 166, 0.72)),
+    url('../img/logo-rt-sem-fundo.png') center bottom 1.25rem / 38% no-repeat;
+  border-radius: 0.75rem;
   color: var(--white);
-  padding: 20px;
-  text-align: center;
-  border-radius: 0;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-/* Títulos */
-header.form-header h1 {
-  margin: 0;
-  font-size: 1.5rem;
-}
-
-header.form-header h2 {
-  margin: 8px 0 0;
-  font-size: 1rem;
-  font-weight: 400;
-}
-
-/* Formulário encaixado dentro do wrapper */
-form#registrationForm {
-  padding: 10px 30px 30px;  border-top: none;
-  border-radius: 0 0 8px 8px;
-  background-color: var(--white);
-}
-
-form#registrationForm div,
-form#registrationForm fieldset {
-  margin-bottom: 20px;
-
-}
-
-.Nome {
-  margin-top: 20px;
-}
-
-form#registrationForm label {
-  display: block;
-  margin-bottom: 6px;
-  font-weight: 600;
-  color: var(--purple);
-  margin-top: 12px;
-}
-
-form#registrationForm input[type="text"],
-form#registrationForm input[type="tel"],
-form#registrationForm input[type="date"] {
-  width: 100%;
-  padding: 10px 12px;
-  border: 1px solid #CCC;
-  border-radius: 4px;
-  background-color: var(--light-purple);
-  transition: border-color 0.3s;
-}
-
-form#registrationForm input:focus {
-  border-color: var(--turquoise);
-  outline: none;
-}
-
-form#registrationForm input[type="checkbox"],
-form#registrationForm input[type="radio"] {
-  transform: scale(1.1);
-  margin-right: 8px;
-}
-
-/* Seção Dados Pessoais */
-.section-personal {
-  background-color: var(--light-purple);
-  border: 1px solid var(--turquoise);
-  border-radius: 6px;
-  padding: 16px;
-  margin-bottom: 10px;
-}
-
-.section-subtitle {
-  color: var(--turquoise);
-  font-size: 1rem;
-  font-weight: 400;
-  border-bottom: 2px solid var(--purple);
-  padding-left: none;
-  padding-bottom: 5px;
-  padding-top: 15px;
-}
-
-.roomOptions {
-  background-color: var(--light-purple);
-  border: 1px solid var(--turquoise);
-  border-radius: 6px;
-  padding-left: 16px;
-  margin-bottom: 24px;
-  box-shadow: inset 0 0 8px rgba(106,27,154,0.1);
-}
-
-.roomOptions legend {
-  color: var(--purple);
-  font-weight: 600;
-  margin-bottom: 8px;
-  text-align: center;
-  background-color: var(--light-purple);
-  border-inline: 20px solid var(--light-purple);
-}
-
-/* Seção Local de Embarque */
-.embark-section {
-  background-color: var(--light-purple);
-  border: 1px solid var(--turquoise);
-  border-radius: 6px;
-  padding-left: 16px;
-  margin-bottom: 24px;
-  box-shadow: inset 0 0 8px rgba(106,27,154,0.1);
-}
-
-.embark-section legend {
-  color: var(--purple);
-  font-weight: 600;
-  margin-bottom: 8px;
-  text-align: center;
-  background-color: var(--light-purple);
-  border-inline: 20px solid var(--light-purple);
-}
-
-form#registrationForm button {
-  width: 100%;
-  padding: 14px;
-  background-color: var(--turquoise);
-  color: var(--white);
-  border-radius: 4px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s;
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--purple);
-  margin-top: 5px;
-
-
-}
-
-form#registrationForm button:hover {
-  background-color: var(--purple);
-}
-
-/* helper text (legenda) */
-.input-helper {
-  display: block;
-  margin-top: 4px;
-  font-size: 0.875rem;
-  color: #666;
-}
-
-/* Progress bar */
-.progress-bar {
+  justify-content: flex-start;
+  min-height: 21rem;
+  overflow: hidden;
+  padding: 1.35rem;
   position: relative;
-  padding: 0;
-  margin: 20px auto 0;
-  list-style: none;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  width: 100%;
 }
 
-.section-personal .progress-bar {
-margin-top: 24px;
-margin-inline: 60px;
-}
-
-
-.progress-bar::before {
+.brand-card::after {
+  background: rgba(0, 0, 0, 0.12);
   content: '';
+  inset: 0;
+  pointer-events: none;
   position: absolute;
-  top: 50%;
-  left: 8%;
-  right: 8%;
-  height: 2px;
-  background: #CCC;
-  transform: translateY(-50%);
+}
+
+.brand-card > * {
+  position: relative;
   z-index: 1;
 }
 
-.progress-bar li {
-  position: relative;
-  z-index: 2;
-  width: 32px;
-  height: 32px;
-  border: 2px solid var(--purple);
-  border-radius: 50%;
-  background: var(--white);
-  display: flex;
-  align-items: center;
+.brand-logo {
+  height: 3.25rem;
+  margin-bottom: 1.25rem;
+  object-fit: contain;
+  width: 3.25rem;
+}
+
+.eyebrow,
+.step-kicker {
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.brand-card h1 {
+  font-size: clamp(1.45rem, 2.5vw, 2rem);
+  font-weight: 900;
+  line-height: 1.12;
+  max-width: 13ch;
+}
+
+.brand-copy {
+  font-size: 0.92rem;
+  line-height: 1.55;
+  margin-top: 0.85rem;
+  max-width: 18rem;
+}
+
+.form-focused .page-shell {
+  grid-template-columns: minmax(0, 48rem);
   justify-content: center;
+  max-width: 54rem;
+}
+
+.form-focused .brand-panel {
+  display: none;
+}
+
+.form-wrapper {
+  align-self: center;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(107, 33, 168, 0.12);
+  border-radius: 0.75rem;
+  box-shadow: 0 18px 50px rgba(31, 41, 55, 0.12);
+  overflow: hidden;
+}
+
+#registrationForm {
+  padding: 1.25rem;
+}
+
+.form-step {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.step-heading,
+.form-header {
+  background: var(--soft);
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  padding: 1.25rem;
+}
+
+.step-heading h2,
+.form-header h2,
+.success-content h2 {
   color: var(--purple);
-  font-weight: 600;
+  font-size: 1.65rem;
+  font-weight: 900;
+  line-height: 1.15;
+}
+
+.step-heading p:last-child,
+.form-header p,
+.success-content p {
+  color: var(--muted);
+  margin-top: 0.35rem;
+}
+
+.step-kicker {
+  color: var(--turquoise);
+  margin-bottom: 0.35rem;
+}
+
+.form-header {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.progress-bar {
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: repeat(3, 1fr);
+  list-style: none;
+  margin: 0 0 1rem;
+  position: relative;
+}
+
+.progress-bar li {
+  align-items: center;
+  background: var(--white);
+  border: 2px solid var(--line);
+  border-radius: 9999px;
+  color: var(--muted);
+  display: flex;
+  font-weight: 800;
+  height: 2.35rem;
+  justify-content: center;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
 .progress-bar li.active {
@@ -240,217 +202,353 @@ margin-inline: 60px;
   color: var(--white);
 }
 
-.progress-bar li::after {
-  display: none;
-}
-
-.section-personal .progress-bar {
-  margin-bottom: 8px;
-  margin-inline: 120px;
-}
-
-/* Botão “Adicionar passageiro” menor e com [+] */
-form#registrationForm .btn-add {
-  width: auto !important;
-  display: inline-block;
-  padding: 6px 12px; 
-  background: none;
-  border: none;
-  border-radius: 4px;
-  font-size: 0.875rem;
-  font-weight: 600;
+.progress-bar li.is-clickable {
+  border-color: var(--turquoise);
   color: var(--purple);
   cursor: pointer;
-  transition: background-color 0.2s;
-  text-decoration: none;
 }
 
-form#registrationForm .btn-add::before {
-  content: "[+] ";
-  margin-right: 4px;
+.progress-bar li.is-clickable:hover,
+.progress-bar li.is-clickable:focus-visible {
+  background: var(--purple-soft);
+  outline: none;
+  transform: translateY(-1px);
 }
 
-form#registrationForm .btn-add:hover {
-  background-color: var(--turquoise);
+.progress-bar li.is-locked {
+  background: #F3F4F6;
+  color: #9CA3AF;
+  cursor: not-allowed;
 }
 
-/* 2) Lista de acompanhantes com “- ” e espaçamento */
+.option-grid,
+.field-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.field-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.option-card,
+.check-row {
+  align-items: flex-start;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  gap: 0.8rem;
+  padding: 1rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.option-card:hover,
+.check-row:hover {
+  border-color: rgba(64, 224, 208, 0.8);
+  box-shadow: 0 10px 20px rgba(31, 41, 55, 0.08);
+  transform: translateY(-1px);
+}
+
+.option-card input,
+.check-row input {
+  accent-color: var(--purple);
+  margin-top: 0.2rem;
+}
+
+.option-card strong,
+.check-row strong {
+  color: var(--ink);
+  display: block;
+  font-weight: 800;
+}
+
+.option-card small,
+.check-row small,
+.input-helper {
+  color: var(--muted);
+  display: block;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  margin-top: 0.25rem;
+}
+
+.compact {
+  margin-top: 0.75rem;
+}
+
+.field label,
+.companions-card > label,
+.signature-box > label {
+  color: var(--purple);
+  display: block;
+  font-weight: 800;
+  margin-bottom: 0.4rem;
+}
+
+input[type='text'],
+input[type='tel'],
+input[type='date'] {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  color: var(--ink);
+  outline: none;
+  padding: 0.85rem 0.95rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  width: 100%;
+}
+
+input[type='text']:focus,
+input[type='tel']:focus,
+input[type='date']:focus {
+  border-color: var(--turquoise);
+  box-shadow: 0 0 0 4px rgba(64, 224, 208, 0.18);
+}
+
+fieldset {
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+legend {
+  color: var(--purple);
+  font-weight: 900;
+  padding: 0 0.4rem;
+}
+
+.companions-card,
+.terms-box,
+.signature-box {
+  background: var(--soft);
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.inline-action {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
 #companionsList {
-  margin: 8px 0 0 30px;
-  padding: 0;
-  list-style: disc;
+  display: grid;
+  gap: 0.5rem;
+  list-style: none;
+  margin-top: 0.75rem;
 }
 
 #companionsList li {
-  position: relative;
-  margin-bottom: none;   /* espaço entre itens */
-  color: #333;
-  font-size: 0.9rem;
+  align-items: center;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.65rem 0.8rem;
 }
 
-/* Step 3 – termos */
-.terms-box {
-  border: 1px solid var(--purple);
-  border-radius: 6px;
-  padding: 16px;
-  margin-bottom: 20px;
-}
-.terms-content {
-  max-height: 150px;
-  overflow-y: auto;
-  padding: 8px;
-  background: #f9f6fc;
-  border: 1px solid #ddd;
-  margin-bottom: 12px;
-}
-.terms-accept {
-  display: block;
-  margin-top: 8px;
-  font-size: 0.9rem;
+.nav-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 0.75rem;
+  justify-content: flex-end;
 }
 
-/* Step 3 – assinatura */
-.signature-box {
-  position: relative;
-  margin-bottom: 20px;
+button {
+  border: 0;
 }
-#signaturePad {
-  width: 100%;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  touch-action: none;
-}
-/* Botão “Limpar” (btn-clear) */
-form#registrationForm .btn-clear {
-  width: auto !important;       /* sobrescreve o 100% */
-  display: inline-block;        /* para ficar do tamanho do conteúdo */
-  padding: 4px 8px;             /* reduzido para parecer um link/botão pequeno */
-  background: none;             /* fundo transparente */
-  border: none;                 /* sem borda */
-  color: var(--purple);         /* cor roxa */
-  font-size: 0.875rem;          /* mesmo tamanho do .btn-add */
+
+.primary-btn,
+.secondary-btn,
+.btn-add,
+.btn-success {
+  align-items: center;
+  border-radius: 9999px;
   cursor: pointer;
-  text-decoration: underline;   /* opcional, para destacar como ação */
+  display: inline-flex;
+  font-weight: 900;
+  justify-content: center;
+  min-height: 2.9rem;
+  padding: 0.8rem 1.15rem;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
-form#registrationForm .btn-clear:hover {
-  color: var(--turquoise);
-}
-
-/* botão de sucesso */
-form#registrationForm .btn-success {
-  width: auto;
-  display: inline-block;
-  margin-top: 16px;
-  padding: 12px 24px;
-  font-size: 1rem;
-  font-weight: 600;
-  background-color: var(--turquoise);
+.primary-btn,
+.btn-success {
+  background: var(--purple);
   color: var(--white);
-  border: none;
-  border-radius: 4px;
+}
+
+.secondary-btn {
+  background: var(--purple-soft);
+  color: var(--purple);
+}
+
+.btn-add {
+  background: var(--turquoise);
+  color: var(--purple-dark);
+  white-space: nowrap;
+}
+
+.primary-btn:hover,
+.btn-success:hover,
+.secondary-btn:hover,
+.btn-add:hover {
+  transform: translateY(-1px);
+}
+
+.primary-btn:disabled,
+.btn-add:disabled {
+  background: #D1D5DB;
+  color: #6B7280;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-remove,
+.btn-clear {
+  background: transparent;
+  color: var(--danger);
   cursor: pointer;
-  transition: background-color 0.3s;
+  font-weight: 800;
+  padding: 0.25rem;
 }
 
-form#registrationForm .btn-success:hover {
-  background-color: var(--purple);
+.terms-content {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  color: #374151;
+  line-height: 1.6;
+  margin: 0.8rem 0 1rem;
+  max-height: 15rem;
+  overflow-y: auto;
+  padding: 1rem;
 }
 
-/* botão pequeno de remoção */
-form#registrationForm .btn-remove {
-  width: auto;
-  display: inline-block;
-  background: none;
-  border: none;
-  color: #c00;              /* vermelho leve */
-  font-size: 0.75rem;       /* menor que o texto */
-  margin-left: 8px;
-  cursor: pointer;
-  text-decoration: underline;
+.terms-content h4 {
+  color: var(--purple);
+  font-weight: 900;
+  margin: 0.8rem 0 0.35rem;
 }
 
-form#registrationForm .btn-remove:hover {
-  color: darkred;
+.terms-content ul {
+  padding-left: 1.1rem;
 }
 
-/* Campo inválido */
-input.invalid {
-  border-color: red;
+.terms-accept {
+  align-items: center;
+  color: var(--ink);
+  display: flex;
+  font-weight: 800;
+  gap: 0.6rem;
 }
 
-/* Texto de erro inline */
-.error-text {
-  color: red;
-  font-size: 0.875rem;
-  margin-top: 4px;
+#signaturePad {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
   display: block;
+  max-width: 100%;
+  touch-action: none;
+  width: 100%;
 }
 
-/* ajustes mobile */
-@media (max-width: 600px) {
-  .progress-bar {
-    margin: 10px auto;
-  }
-
-  body {
-  padding: 1px;
-  }
-  
-  .progress-bar li {
-    width: 24px;
-    height: 24px;
-    line-height: 22px;
-    font-size: 0.875rem;
-  }
-
-  .section-personal .progress-bar {
-  margin-top: 24px;
-  margin-inline: 60px;
-  }
-
-  .form-wrapper {
-    margin: 8px;
-    border: none;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  }
-
-  header.form-header {
-    padding: 16px;
-  }
-
-  header.form-header h1 {
-    font-size: 1.25rem;
-  }
-
-  header.form-header h2 {
-    font-size: 0.650rem;
-  }
-
-  form#registrationForm {
-    padding: 20px;
-  }
-
-  .section-personal {
-  padding: 8px;
+.success-content {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 2rem 1rem;
+  text-align: center;
 }
 
-.section-subtitle {
-  color: var(--turquoise);
-  font-size: 0.75rem;
-  font-weight: 400;
-  border-bottom: 2px solid var(--purple);
-  padding-left: none;
-  padding-bottom: 5px;
-  padding-top: 0px;
+.success-logo {
+  height: 5rem;
+  object-fit: contain;
+  width: 5rem;
 }
 
-  form#registrationForm input[type="text"],
-  form#registrationForm input[type="tel"],
-  form#registrationForm input[type="date"],
-  form#registrationForm button {
-    font-size: 14px;
-    padding: 10px;
+.invalid {
+  border-color: var(--danger) !important;
+}
+
+.error-text {
+  color: var(--danger);
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 700;
+  margin-top: 0.35rem;
+}
+
+.load-placeholder,
+.load-error {
+  background: var(--soft);
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  color: var(--muted);
+  padding: 1rem;
+}
+
+.load-error {
+  color: var(--danger);
+  font-weight: 700;
+}
+
+@media (max-width: 900px) {
+  .page-shell {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+
+  .brand-panel {
+    min-height: auto;
+    position: static;
+  }
+
+  .brand-card {
+    min-height: 12rem;
   }
 }
 
+@media (max-width: 640px) {
+  .page-shell {
+    padding: 0.65rem;
+  }
+
+  #registrationForm {
+    padding: 0.85rem;
+  }
+
+  .brand-card,
+  .form-wrapper,
+  .step-heading,
+  .form-header,
+  .option-card,
+  .check-row,
+  .companions-card,
+  .terms-box,
+  .signature-box {
+    border-radius: 0.5rem;
+  }
+
+  .field-grid,
+  .inline-action {
+    grid-template-columns: 1fr;
+  }
+
+  .nav-buttons {
+    flex-direction: column-reverse;
+  }
+
+  .primary-btn,
+  .secondary-btn,
+  .btn-add,
+  .btn-success {
+    width: 100%;
+  }
+}
