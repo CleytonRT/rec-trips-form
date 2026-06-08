@@ -74,7 +74,12 @@
             </div>
             <div class="field">
               <label for="birthDate">Data de nascimento *</label>
-              <input type="date" id="birthDate" name="birthDate" required>
+              <div class="date-field">
+                <input type="text" id="birthDate" name="birthDate" required inputmode="numeric" autocomplete="bday" placeholder="dd/mm/aaaa" maxlength="10">
+                <button type="button" id="openBirthDatePicker" class="calendar-btn" aria-label="Abrir calendario">Calendario</button>
+                <input type="date" id="birthDatePicker" class="native-date-picker" aria-hidden="true" tabindex="-1">
+              </div>
+              <small class="input-helper">Digite dd/mm/aaaa ou use o calendario</small>
             </div>
             <div class="field">
               <label for="rg">RG *</label>

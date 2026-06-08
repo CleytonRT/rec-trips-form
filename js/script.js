@@ -10,6 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const companionsField = $('companionsField');
   const signatureField = $('signatureField');
   const destinationOptions = $('destinationOptions');
+  const birthDateInput = $('birthDate');
+  const birthDatePicker = $('birthDatePicker');
+  const openBirthDatePicker = $('openBirthDatePicker');
 
   let viagens = [];
   let selectedTrip = null;
@@ -25,6 +28,43 @@ document.addEventListener('DOMContentLoaded', () => {
   const isHospedagem = () => selectedTrip?.tipo === 'hospedagem';
 
   const tripLabel = (trip) => `${trip.titulo} (${trip.tipoLabel || trip.tipo})`;
+
+  const formatBirthDate = (value) => {
+    const digits = value.replace(/\D/g, '').slice(0, 8);
+    const parts = [digits.slice(0, 2), digits.slice(2, 4), digits.slice(4, 8)].filter(Boolean);
+    return parts.join('/');
+  };
+
+  const parseBirthDate = (value) => {
+    const match = value.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+    if (!match) return null;
+
+    const day = Number(match[1]);
+    const month = Number(match[2]);
+    const year = Number(match[3]);
+    const date = new Date(year, month - 1, day);
+
+    if (date.getFullYear() !== year || date.getMonth() !== month - 1 || date.getDate() !== day) return null;
+    if (year < 1900 || date > new Date()) return null;
+
+    return date;
+  };
+
+  const toIsoDate = (value) => {
+    const date = parseBirthDate(value);
+    if (!date) return '';
+
+    const year = String(date.getFullYear()).padStart(4, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
+  const fromIsoDate = (value) => {
+    const match = value.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (!match) return '';
+    return `${match[3]}/${match[2]}/${match[1]}`;
+  };
 
   const optionCard = ({ name, value, title, subtitle }) => {
     const label = document.createElement('label');
@@ -163,16 +203,18 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   const clearFieldError = (field) => {
+    const wrapper = field.closest('.field') || field.parentNode;
     field.classList.remove('invalid');
-    field.parentNode.querySelectorAll('.error-text').forEach((error) => error.remove());
+    wrapper.querySelectorAll('.error-text').forEach((error) => error.remove());
   };
 
   const addFieldError = (field, message) => {
+    const wrapper = field.closest('.field') || field.parentNode;
     field.classList.add('invalid');
     const error = document.createElement('small');
     error.className = 'error-text';
     error.textContent = message;
-    field.parentNode.appendChild(error);
+    wrapper.appendChild(error);
   };
 
   const selectedCompanions = () => {
@@ -202,6 +244,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (!value) {
         message = 'Preencha este campo';
+      } else if (id === 'birthDate' && !parseBirthDate(value)) {
+        message = 'Informe uma data valida';
       } else if (id === 'cpf' && value.replace(/\D/g, '').length < 11) {
         message = 'CPF deve ter 11 dígitos';
       } else if (id === 'whatsapp') {
@@ -228,6 +272,37 @@ document.addEventListener('DOMContentLoaded', () => {
     const field = $(id);
     field.addEventListener('input', refreshProgressBar);
     field.addEventListener('change', refreshProgressBar);
+  });
+
+  birthDateInput.addEventListener('input', () => {
+    birthDateInput.value = formatBirthDate(birthDateInput.value);
+    birthDatePicker.value = toIsoDate(birthDateInput.value);
+    refreshProgressBar();
+  });
+
+  birthDateInput.addEventListener('blur', () => {
+    birthDatePicker.value = toIsoDate(birthDateInput.value);
+  });
+
+  birthDatePicker.addEventListener('change', () => {
+    birthDateInput.value = fromIsoDate(birthDatePicker.value);
+    refreshProgressBar();
+  });
+
+  openBirthDatePicker.addEventListener('click', () => {
+    birthDatePicker.value = toIsoDate(birthDateInput.value);
+
+    if (typeof birthDatePicker.showPicker === 'function') {
+      try {
+        birthDatePicker.showPicker();
+        return;
+      } catch (error) {
+        birthDatePicker.focus();
+      }
+    }
+
+    birthDatePicker.focus();
+    birthDatePicker.click();
   });
 
   const updateCompanionState = () => {
