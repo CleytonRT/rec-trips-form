@@ -1,0 +1,16 @@
+{
+  "name": "cadastro-rectrips",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "check:functions": "node --check netlify/functions/register-passenger.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@supabase/server": "^1.2.0"
+  }
+}
